@@ -1,0 +1,13 @@
+
+.idea/
+.idea
+
+target/
+
+log/
+
+LOG_HOME_IS_UNDEFINED/
+
+*.log
+
+*.iml
