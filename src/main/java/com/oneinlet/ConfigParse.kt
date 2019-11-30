@@ -36,16 +36,15 @@ data class ConfigParse(
     }
 
 
-    fun getFileName(map: HashMap<String, String>) {
+    private fun getFileName(map: HashMap<String, String>) {
         val name = map["name"]
         if (name != null) {
             val namePriority = map["name.priority"]
-            requireNotNull("name.priority", namePriority!!)
-
+            requireNotNull("name.priority", namePriority)
             val nameMatchStr = map["name.match"]
-            Objects.requireNonNull(namePriority, "name.priority 不能为空")
+            requireNotNull("name.match", nameMatchStr)
             val nameMatch = FileName.MatchCondition.valueOf(nameMatchStr!!)
-            val fileName = FileName(name!!, nameMatch)
+            val fileName = FileName(name, nameMatch)
             fileValue.setNamePriority(fileName, namePriority!!.toInt())
         }
 
@@ -53,64 +52,84 @@ data class ConfigParse(
     }
 
 
-    fun getFileSize(map: HashMap<String, String>) {
+    private fun getFileSize(map: HashMap<String, String>) {
         val size = map["size"]
-        val sizePriority = map["size.priority"]
-        val sizeArray = size!!.split(",")
-        val filesize = FileSize(sizeArray[0].toInt(), sizeArray[1].toInt())
-        fileValue.setSizePriority(filesize, sizePriority!!.toInt())
+        if (size != null) {
+            val sizePriority = map["size.priority"]
+            requireNotNull("size.priority", sizePriority)
+            val sizeArray = size.split(",")
+            val fileSize = FileSize(sizeArray[0].toInt(), sizeArray[1].toInt())
+            fileValue.setSizePriority(fileSize, sizePriority!!.toInt())
+        }
     }
 
 
-    fun getDatetime(map: HashMap<String, String>) {
+    private fun getDatetime(map: HashMap<String, String>) {
         val datetime = map["datetime"]
-        val datetimePriority = map["datetime.priority"]
-        val sizeArray = datetime!!.split(",")
-
-        val start = LocalDateTime.parse(sizeArray[0], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-
-        val end = LocalDateTime.parse(sizeArray[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-        val fileDateTime = FileDateTime(start, end)
-
-        fileValue.setDatetimePriority(fileDateTime, datetimePriority!!.toInt())
+        if (datetime != null) {
+            val datetimePriority = map["datetime.priority"]
+            requireNotNull("datetime.priority", datetimePriority)
+            val sizeArray = datetime.split(",")
+            val start = LocalDateTime.parse(sizeArray[0], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            val end = LocalDateTime.parse(sizeArray[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            val fileDateTime = FileDateTime(start, end)
+            fileValue.setDatetimePriority(fileDateTime, datetimePriority!!.toInt())
+        }
     }
 
-    fun getExtension(map: HashMap<String, String>) {
+    private fun getExtension(map: HashMap<String, String>) {
         val extensionStr = map["extension"]
-        val suffix = map["extension.suffix"]
-        val extensionPriority = map["extension.priority"]
+        if (extensionStr != null) {
+            val suffix = map["extension.suffix"]
+            if (FileExtension.Extension.DIY.name == extensionStr) {
+                requireNotNull("extension.suffix", suffix)
+            }
+            val extensionPriority = map["extension.priority"]
+            requireNotNull("extension.priority", extensionPriority)
+            val extension = FileExtension.Extension.valueOf(extensionStr)
+            val fileExtension = FileExtension(extension, suffix)
+            fileValue.setExtensionPriority(fileExtension, extensionPriority!!.toInt())
+        }
 
-        val extension = FileExtension.Extension.valueOf(extensionStr!!)
-        val fileExtension = FileExtension(extension, suffix)
-        fileValue.setExtensionPriority(fileExtension, extensionPriority!!.toInt())
     }
 
 
-    fun getAuthority(map: HashMap<String, String>) {
+    private fun getAuthority(map: HashMap<String, String>) {
         val authorityStr = map["authority"]
-        val authorityPriority = map["authority.priority"]
-        val fileAuthority = FileAuthority.valueOf(authorityStr!!)
-        fileValue.setAuthorityPriority(fileAuthority, authorityPriority!!.toInt())
+        if (authorityStr != null) {
+            val authorityPriority = map["authority.priority"]
+            requireNotNull("authority.priority", authorityPriority)
+            val fileAuthority = FileAuthority.valueOf(authorityStr)
+            fileValue.setAuthorityPriority(fileAuthority, authorityPriority!!.toInt())
+        }
     }
 
 
-    fun getFileType(map: HashMap<String, String>) {
+    private fun getFileType(map: HashMap<String, String>) {
         val fileTypeStr = map["fileType"]
-        val authorityPriority = map["fileType.priority"]
-        val fileType = FileType.valueOf(fileTypeStr!!)
-        fileValue.setFileTypePriority(fileType, authorityPriority!!.toInt())
+        if (fileTypeStr != null) {
+            val fileTypePriority = map["fileType.priority"]
+            requireNotNull("fileType.priority", fileTypePriority)
+            val fileType = FileType.valueOf(fileTypeStr)
+            fileValue.setFileTypePriority(fileType, fileTypePriority!!.toInt())
+        }
+
+
     }
 
 
-    fun getShowStatus(map: HashMap<String, String>) {
+    private fun getShowStatus(map: HashMap<String, String>) {
         val showStatusStr = map["showStatus"]
-        val showStatusPriority = map["showStatus.priority"]
-        val fileShowStatus = FileShowStatus.valueOf(showStatusStr!!)
-        fileValue.setShowStatusPriority(fileShowStatus, showStatusPriority!!.toInt())
+        if (showStatusStr != null) {
+            val showStatusPriority = map["showStatus.priority"]
+            requireNotNull("showStatus.priority", showStatusPriority)
+            val fileShowStatus = FileShowStatus.valueOf(showStatusStr)
+            fileValue.setShowStatusPriority(fileShowStatus, showStatusPriority!!.toInt())
+        }
     }
 
 
-    fun requireNotNull(keyName: String, value: String) {
+    private fun requireNotNull(keyName: String, value: String?) {
         Objects.requireNonNull(value, String.format("%s parameter can not null !", keyName))
     }
 

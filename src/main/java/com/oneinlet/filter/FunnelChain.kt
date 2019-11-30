@@ -4,6 +4,7 @@ import com.oneinlet.export.FileExport
 import com.oneinlet.export.PrintFileExport
 import com.oneinlet.model.FileValue
 import java.io.File
+import java.lang.RuntimeException
 import java.util.*
 
 /**
@@ -18,8 +19,8 @@ open class FunnelChain {
 
     private val map: MutableMap<Int, Funnel> = TreeMap(naturalOrder())
     private var size: Int = 0
-    private lateinit var criteria: Criteria
-    private lateinit var fileExport: FileExport
+    private var criteria: Criteria = Criteria.AND
+    private var fileExport: FileExport = PrintFileExport()
 
     companion object {
         fun builder(): FunnelChain {

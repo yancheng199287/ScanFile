@@ -1,22 +1,22 @@
 
-#
-path=D:\\workspace\\java
+# 完整的配置文件，不要删除，备份参考
+path=/home/yancheng/ownCloud
 
 # AND OR NOT
 criteria=AND
 
 # 文件名称，支持正则
-#name=
+name=w
 # 匹配名称 EQUALS,CONTAIN,STARTING_WITH,ENDING_WITH,
 name.match=CONTAIN
 # 优先级
 name.priority=1
 
 
-#size=100,2048
-#size.priority=2
+size=100,2048
+size.priority=2
 
-#datetime=2019-11-08 12:00:00,2019-12-09 12:00:00
+datetime=2019-11-08 12:00:00,2019-12-09 12:00:00
 datetime.priority=3
 
 # 匹配后缀名 COMPRESSION,DOCUMENT,IMAGE,VOICE,VIDEO,DIY

@@ -1,7 +1,10 @@
 package com.oneinlet.model
 
+import com.oneinlet.AppConf
+import com.oneinlet.ConfigParse
 import com.oneinlet.filter.FunnelChain
 import java.time.LocalDateTime
+import java.util.HashMap
 
 /**
  * Created by WangZiHe on 19-11-27
@@ -24,7 +27,7 @@ data class FileValue(
         var showStatus: FileShowStatus? = null
 ) {
 
-    var path:String?=null
+    var path: String? = null
     var criteria: FunnelChain.Criteria = FunnelChain.Criteria.AND
 
     var namePriority: Int = 0
@@ -80,6 +83,10 @@ data class FileValue(
         return this
     }
 
+    fun parse(): FileValue {
+        ConfigParse(this, AppConf.getStringValue()).parse()
+        return this
+    }
 
 }
 

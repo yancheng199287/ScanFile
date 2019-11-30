@@ -21,15 +21,22 @@ import java.time.LocalDateTime
 
 class Test02 {
 
+    @Test
+    fun simple00() {
+        val fileValue = FileValue().parse()
+        val funnelChain = FunnelChain.builder().setFileValueAndAddFunnel(fileValue).build()
+        FileScanner(fileValue.path!!, funnelChain).scan()
+    }
 
     @Test
     fun asddddddddd() {
         var fileValue = FileValue()
-        val configParse = ConfigParse(fileValue,AppConf.getStringValue())
+        val configParse = ConfigParse(fileValue, AppConf.getStringValue())
         configParse.parse()
         println(fileValue.path)
 
         val funnelChain = FunnelChain.builder()
+                .setExport(PrintFileExport())
                 .setCriteria(fileValue.criteria)
                 .setFileValueAndAddFunnel(fileValue)
                 .build()
@@ -53,7 +60,6 @@ class Test02 {
         fileValue.fileType = FileType.ALL
         fileValue.showStatus = FileShowStatus.SHOW
         val path = "/home/yancheng/ownCloud"
-
         val funnelChain = FunnelChain.builder()
                 .setCriteria(FunnelChain.Criteria.AND)
                 .setExport(PrintFileExport())

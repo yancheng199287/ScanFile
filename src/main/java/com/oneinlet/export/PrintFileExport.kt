@@ -11,7 +11,7 @@ import java.io.File
  */
 class PrintFileExport : FileExport {
     override fun handleFile(file: File) {
-        println("收到一个文件:${file.path}")
+        println("receive a file:${file.path}")
     }
 }
 
