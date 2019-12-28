@@ -155,7 +155,11 @@ data class FileExtension(private val extension: Extension, private val otherSuff
         val strSuffix = if (extension == Extension.DIY) {
             otherSuffix!!
         } else {
-            extension.suffix.plus(",").plus(otherSuffix!!)
+            if (otherSuffix != null) {
+                extension.suffix.plus(",").plus(otherSuffix)
+            } else {
+                extension.suffix
+            }
         }
         return strSuffix.split(",")
     }

@@ -22,8 +22,22 @@ import java.time.LocalDateTime
 class Test02 {
 
     @Test
+    fun simple001() {
+        val fileValue = FileValue()
+        fileValue.fileType = FileType.FILE
+        fileValue.path="E:\\static\\DhLSf"
+        fileValue.extension= FileExtension(FileExtension.Extension.IMAGE)
+
+        val funnelChain = FunnelChain.builder().setFileValueAndAddFunnel(fileValue).build()
+        FileScanner(fileValue.path!!, funnelChain).scan()
+    }
+
+
+
+    @Test
     fun simple00() {
         val fileValue = FileValue().parse()
+
         val funnelChain = FunnelChain.builder().setFileValueAndAddFunnel(fileValue).build()
         FileScanner(fileValue.path!!, funnelChain).scan()
     }

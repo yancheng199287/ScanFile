@@ -40,7 +40,12 @@ open class FunnelChain {
 
 
     fun addFunnel(funnel: Funnel, priority: Int = 0): FunnelChain {
-        map[priority] = funnel
+        val priority1 = if (priority == 0) {
+            map.size + 1
+        } else {
+            priority
+        }
+        map[priority1] = funnel
         return this
     }
 
@@ -74,6 +79,7 @@ open class FunnelChain {
         if (fileValue.datetime != null) {
             addFunnel(DatetimeFunnel(fileValue.datetime!!), fileValue.datetimePriority)
         }
+
         return this
     }
 
@@ -90,6 +96,7 @@ open class FunnelChain {
             //  println("index: $index == $size 优先级：${en.key}-> 漏斗器：${en.value} ,file:${file.name}")
             if (criteria == Criteria.AND) {
                 val pass = en.value.funnelProcess(file)
+
                 if (!pass) {
                     return
                 }
@@ -102,7 +109,6 @@ open class FunnelChain {
                 }
             } else if (criteria == Criteria.NOT) {
                 val pass = en.value.funnelProcess(file)
-                //  println("index: $index == $size ,file:${file.name}  ---- ${en.value}  $pass")
                 if (pass) {
                     return
                 }
